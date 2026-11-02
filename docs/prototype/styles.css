@@ -5154,6 +5154,9 @@ body.preview-excel .excel-stage {
 .excel-grid td.bold {
   font-weight: 600;
 }
+.excel-grid td.italic {
+  font-style: italic;
+}
 .excel-grid td.note {
   color: #64748b;
   font-size: 10px;

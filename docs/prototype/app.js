@@ -1926,8 +1926,7 @@ function startExport() {
 
 function openMaterialModal(tab = 'mine') {
   const doc = state.currentDoc;
-  if (!doc) return;
-  const selected = new Set(getAttached(doc));
+  const selected = new Set(doc ? getAttached(doc) : []);
   const render = () => {
     const body = tab === 'mine' ? `<div class="material-pick-list">${MATERIALS.map((mat) => `<label class="material-pick ${selected.has(mat.id) ? 'selected' : ''}">
         <input type="checkbox" data-mat-id="${mat.id}" ${selected.has(mat.id) ? 'checked' : ''}>
@@ -1965,11 +1964,16 @@ function openMaterialModal(tab = 'mine') {
       toast('资料已解析完成');
     });
     $('#modal-root [data-material-confirm]')?.addEventListener('click', () => {
-      state.attached[doc.id] = selected;
-      closeModal();
-      updateContext();
-      updateComposerChips();
-      toast(`已添加 ${selected.size} 份资料`);
+      if (doc) {
+        state.attached[doc.id] = selected;
+        closeModal();
+        updateContext();
+        updateComposerChips();
+        toast(`已添加 ${selected.size} 份资料`);
+      } else {
+        closeModal();
+        toast(`已加入资料库：${selected.size} 份资料`);
+      }
     });
   };
   render();
