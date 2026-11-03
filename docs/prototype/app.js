@@ -111,6 +111,8 @@ const MATERIALS = [
   { id: 'mat-competitor', name: '竞品分析（链接）', type: '链接', size: '—', detail: '网页 · 抓取于昨天', citations: 2 },
 ];
 
+const STORAGE = { used: 2.6, total: 10 };
+
 /* --------------------------------------------------------------------------
    State
    -------------------------------------------------------------------------- */
@@ -995,9 +997,53 @@ function templateCard(tpl, compact = false) {
   </button>`;
 }
 
+function countByType(items) {
+  return items.reduce((counts, item) => {
+    counts[item.type] = (counts[item.type] || 0) + 1;
+    return counts;
+  }, {});
+}
+
+function typeBreakdown(counts) {
+  return Object.keys(TYPES).map((type) => `${TYPES[type].short} ${counts[type] || 0}`).join(' · ');
+}
+
+function typeBar(counts) {
+  const segments = Object.keys(TYPES)
+    .filter((type) => counts[type])
+    .map((type) => `<i style="flex:${counts[type]};background:var(--${type})"></i>`)
+    .join('');
+  if (!segments) return '';
+  return `<span class="stat-bar" role="img" aria-label="${esc(typeBreakdown(counts))}">${segments}</span>`;
+}
+
+function statCard({ tone, iconName, label, value, unit, meta, bar = '' }) {
+  return `<div class="stat-card">
+    <div class="stat-head"><span class="stat-icon ${tone}">${icon(iconName)}</span>${esc(label)}</div>
+    <div class="stat-value">${esc(value)}<small>${esc(unit)}</small></div>
+    ${bar}
+    <div class="stat-meta">${esc(meta)}</div>
+  </div>`;
+}
+
+function renderHomeStats() {
+  const docCounts = countByType(DOCS);
+  const tplCounts = countByType(TEMPLATES);
+  const citations = MATERIALS.reduce((sum, mat) => sum + mat.citations, 0);
+  const storagePct = Math.round((STORAGE.used / STORAGE.total) * 100);
+  const cards = [
+    { tone: 'blue', iconName: 'i-file', label: '文档总数', value: DOCS.length, unit: '份', meta: typeBreakdown(docCounts), bar: typeBar(docCounts) },
+    { tone: 'orange', iconName: 'i-template', label: '模板库', value: TEMPLATES.length, unit: '套', meta: typeBreakdown(tplCounts), bar: typeBar(tplCounts) },
+    { tone: 'green', iconName: 'i-link', label: '资料引用', value: citations, unit: '次', meta: `来自 ${MATERIALS.length} 份资料` },
+    { tone: 'purple', iconName: 'i-chart', label: '存储空间', value: STORAGE.used, unit: 'GB', meta: `共 ${STORAGE.total} GB · 已用 ${storagePct}%`, bar: `<span class="stat-bar" role="img" aria-label="已用 ${storagePct}%"><i style="width:${storagePct}%"></i></span>` },
+  ];
+  $('#home-stats').innerHTML = cards.map(statCard).join('');
+}
+
 function renderRecentDocs() {
   $('#recent-docs').innerHTML = DOCS.slice(0, 4).map(docCard).join('');
   $('#nav-doc-count').textContent = String(DOCS.length);
+  renderHomeStats();
 }
 
 function renderHomeTemplates() {
@@ -1030,6 +1076,7 @@ function renderMaterials() {
     <span>${mat.citations} 次</span>
     <span><span class="status-pill">已就绪</span></span>
   </div>`).join('');
+  renderHomeStats();
 }
 
 /* --------------------------------------------------------------------------
