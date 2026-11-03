@@ -4,7 +4,7 @@
 
 | 文件 | 内容 |
 | --- | --- |
-| `01-home.png` | 首页：快捷新建、最近文档、推荐模板 |
+| `01-home.png` | 首页：数据概览、快捷新建、最近文档、推荐模板 |
 | `02-new-document.png` | 新建文档：类型 / 模板 / 主题 / 标题 |
 | `03-ppt-workbench.png` | 演示工作台：左侧 16:9 画布 + 缩略图，右侧 Copilot |
 | `04-copilot-applied.png` | 应用 Copilot 生成结果后的 8 页幻灯片与主题 |

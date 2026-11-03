@@ -698,6 +698,102 @@ kbd {
   color: #fff;
 }
 
+/* ---------- Home stats ---------- */
+
+.section-hint {
+  font-size: 11.5px;
+  color: var(--text-3);
+}
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+.stat-card {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 15px 16px 14px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: var(--shadow-xs);
+}
+.stat-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-2);
+}
+.stat-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+.stat-icon .icon {
+  width: 14px;
+  height: 14px;
+}
+.stat-icon.blue {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.stat-icon.orange {
+  background: var(--orange-soft);
+  color: var(--orange);
+}
+.stat-icon.green {
+  background: var(--green-soft);
+  color: var(--green);
+}
+.stat-icon.purple {
+  background: #f3edff;
+  color: var(--purple);
+}
+.stat-value {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  font-size: 26px;
+  font-weight: 650;
+  line-height: 1.1;
+  letter-spacing: -0.6px;
+  font-variant-numeric: tabular-nums;
+}
+.stat-value small {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-3);
+  letter-spacing: 0;
+}
+.stat-bar {
+  display: flex;
+  gap: 2px;
+  height: 6px;
+  margin-top: 3px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: #eef0f3;
+}
+.stat-bar i {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--accent);
+}
+.stat-meta {
+  margin-top: auto;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--text-3);
+}
+
 .home-section {
   margin-top: 28px;
 }
@@ -4784,6 +4880,9 @@ body.preview-excel .excel-stage {
 @media (max-width: 1080px) {
   .home-layout {
     grid-template-columns: 210px minmax(0, 1fr);
+  }
+  .stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .quick-create {
     gap: 10px;
